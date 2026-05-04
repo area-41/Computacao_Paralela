@@ -1,8 +1,8 @@
 # Python Parallel Computing: Multiprocessing, IPC & Shared Memory
 
-Este repositório reúne implementações práticas focadas em **Computação Paralela** utilizando a biblioteca `multiprocessing` do Python. O objetivo principal é explorar como superar o *Global Interpreter Lock (GIL)*, criando processos independentes que executam tarefas simultaneamente e se comunicam de forma eficiente.
+Esta pasta do repositório reúne implementações práticas focadas em **Computação Paralela** utilizando a biblioteca `multiprocessing` do Python. O objetivo principal é explorar como superar o *Global Interpreter Lock (GIL)*, criando processos independentes que executam tarefas simultaneamente e se comunicam de forma eficiente.
 
-## Conceitos e Aprendizados
+### Conceitos e Aprendizados
 
 ### 1. Memória Compartilhada (`Value` e `Array`)
 Em sistemas paralelos, processos não compartilham o mesmo espaço de memória por padrão. Para permitir que processos colaborem nos mesmos dados, utilizei objetos de memória compartilhada:
@@ -42,7 +42,6 @@ Implementação de uma estrutura de dados **Thread-safe e Process-safe**.
 | `Pipe.py` | Inversor de frases via canal de comunicação. | `Pipe` (Send/Recv) |
 | `Queue.py` | Sistema de fila com produtor e consumidor randômicos. | `Queue` + `Event` |
 
----
 
 ## Conclusão
 O estudo desses scripts permitiu a compreensão de que a computação paralela em Python vai além da simples execução simultânea.
