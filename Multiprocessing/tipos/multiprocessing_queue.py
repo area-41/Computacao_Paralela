@@ -1,12 +1,3 @@
-# Produtor e Consumidor
-"""
-Produtor gera mais rapidamente que o consumidor consome para que seja formada uma fila
-ex.:
-Produtor gerou: 53
-Consumiu: 31
-Fila: [53]
-"""
-
 from multiprocessing import Process, Queue, Event
 import random
 import time
@@ -47,25 +38,34 @@ def consu(queue, stop_event):
 
 if __name__ == '__main__':
 
+    """
+    Produtor gera mais rapidamente que o consumidor consome para que seja formada uma fila
+    ex.:
+    Produtor gerou: 53
+    Consumiu: 31
+    Fila: [53]
+    """
+
     fila = Queue()
     stop_event = Event()
 
     produtor = Process(target=prod, args=(fila, stop_event))
     consumidor = Process(target=consu, args=(fila, stop_event))
 
+    # produtor.start()
+    # consumidor.start()
+
+    print("Digite '0' para encerrar e 'Enter' para iniciar!")
+
     produtor.start()
     consumidor.start()
-
-    print("Digite 'sair' para encerrar.")
 
     while True:
         comando = input()
-        if comando.strip().lower() == "sair":
+        if comando.strip().lower() == "0":
             stop_event.set()
             break
 
-    produtor.start()
-    consumidor.start()
 
     produtor.join()
     consumidor.join()

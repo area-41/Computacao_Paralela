@@ -2,6 +2,8 @@
 
 Esta pasta do repositório reúne implementações práticas focadas em **Computação Paralela** utilizando a biblioteca `multiprocessing` do Python. O objetivo principal é explorar como superar o *Global Interpreter Lock (GIL)*, criando processos independentes que executam tarefas simultaneamente e se comunicam de forma eficiente.
 
+A escolha entre Queue, Pipe, Value e Array depende da necessidade da aplicação. Para troca de mensagens e tarefas, Queue é geralmente a melhor opção por sua simplicidade e segurança. Pipe é útil para comunicação direta entre dois processos. Já Value e Array são preferíveis quando há necessidade de compartilhamento direto de dados numéricos em memória, com controle de concorrência.
+
 ### Conceitos e Aprendizados
 
 ### 1. Memória Compartilhada (`Value` e `Array`)
@@ -26,6 +28,10 @@ Implementação de uma estrutura de dados **Thread-safe e Process-safe**.
 ### 3. Gerenciamento de Ciclo de Vida e Sincronização
 *   **`Process.start()` e `Process.join()`**: Controle fino sobre a criação e a espera pelo término da execução de cada processo, garantindo que o programa principal não finalize antes das tarefas paralelas.
 *   **`Event`**: Uso de sinalizadores (*flags*) de sincronização para comunicar estados entre processos (como o sinal de interrupção/parada do sistema).
+
+
+O Pool é ideal para tarefas paralelas que não exigem comunicação frequente entre os subprocessos. Em situações que envolvem comunicação ou estado compartilhado, outras abordagens como Queue, Value ou Manager são mais adequadas.
+O Pool é potência de múltiplos núcleos da CPU com pouquíssimo esforço adicional de codificação. O código permanece limpo, eficiente e facilmente escalável para cenários de processamento intensivo.
 
 ---
 

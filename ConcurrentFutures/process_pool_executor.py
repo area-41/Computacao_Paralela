@@ -1,0 +1,79 @@
+# Passos para verificar se um número n é primo:
+
+#     1. Verifique se n é menor que 2
+#         - Se for, não é primo (por definição, primos começam em 2).
+
+#     2. Calcule a raiz quadrada de n e converta para inteiro
+#         - Usado para limitar as divisões até o necessário.
+
+#     3. Tente dividir n por todos os inteiros i de 2 até √n (inclusive)
+#          - Para cada i, verifique se n % i == 0.
+#                 Se for divisível por algum i, então n não é primo (retorna False)
+
+#     4. Se nenhum divisor for encontrado até √n, então n é primo (retorna True).
+
+from concurrent.futures import ProcessPoolExecutor
+import time
+
+def isPrimo(n):
+    print(f"Checando se o número {n} é primo...")
+    if n < 2:
+        return False
+
+    for i in range(2, int(n**0.5)+1):
+        if n % i == 0:
+            return False
+    
+    return True
+
+
+if __name__ == "__main__":
+    numeros = [122725350953003, 122725350953011, 122725350953053, 122725350953159, 122725350953209]
+    # numeros = [
+    #     122725350953003, 122725350953011, 122725350953053, 122725350953159, 122725350953209,
+    #     122725350953237, 122725350953263, 122725350953287, 122725350953297, 122725350953299,
+    #     122725350953333, 122725350953369, 122725350953399, 122725350953473, 122725350953483,
+    #     122725350953509, 122725350953539, 122725350953549, 122725350953563, 122725350953603,
+    #     122725350953627, 122725350953651, 122725350953657, 122725350953663, 122725350953683,
+    #     122725350953707, 122725350953719, 122725350953747, 122725350953767, 122725350953789,
+    #     122725350953801, 122725350953813, 122725350953827, 122725350953861, 122725350953911,
+    #     122725350953957, 122725350953971, 122725350953981, 122725350953983, 122725350953999,
+    #     122725350954043, 122725350954053, 122725350954061, 122725350954127, 122725350954131,
+    #     122725350954161, 122725350954281, 122725350954301, 122725350954307, 122725350954329,
+    #     122725350953003, 122725350953011, 122725350953053, 122725350953159, 122725350953209,
+    #     122725350953237, 122725350953263, 122725350953287, 122725350953297, 122725350953299,
+    #     122725350953333, 122725350953369, 122725350953399, 122725350953473, 122725350953483,
+    #     122725350953509, 122725350953539, 122725350953549, 122725350953563, 122725350953603,
+    #     122725350953627, 122725350953651, 122725350953657, 122725350953663, 122725350953683,
+    #     122725350953707, 122725350953719, 122725350953747, 122725350953767, 122725350953789,
+    #     122725350953801, 122725350953813, 122725350953827, 122725350953861, 122725350953911,
+    #     122725350953957, 122725350953971, 122725350953981, 122725350953983, 122725350953999,
+    #     122725350954043, 122725350954053, 122725350954061, 122725350954127, 122725350954131,
+    #     122725350954161, 122725350954281, 122725350954301, 122725350954307, 122725350954329,
+    # ]
+
+    # print("==== VERSÃO SEQUENCIAL ==== ")
+
+    # inicio = time.time()
+    
+    # resultados_seq = [isPrimo(n) for n in numeros]
+
+    # fim = time.time()
+
+    # decorrido = fim - inicio
+    
+    # print(f"O tempo sequencial é: {decorrido} segundos")
+
+    print("==== VERSÃO PARALELA ====")
+
+    inicio = time.time()
+    
+    with ProcessPoolExecutor(max_workers=8) as executor:
+        resultados_paralelo = list(executor.map(isPrimo, numeros))
+    
+    fim = time.time()
+
+    decorrido = fim - inicio
+    print(f"O tempo paralelo é: {decorrido} segundos")
+
+    print("Resultados: ", resultados_paralelo)
