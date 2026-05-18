@@ -1,0 +1,31 @@
+{
+  "name": "Computacao Paralela - Area 41",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+
+  // Instala o UV automaticamente como uma Feature do DevContainer
+  "features": {
+    "ghcr.io/astral-sh/devcontainer-features/uv:1": {
+      "version": "latest"
+    }
+  },
+
+  // Configurações e extensões úteis para o VS Code no Codespaces
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff" // Excelente linter/formatter que integra com o ecossistema do uv
+      ]
+    }
+  },
+
+  // Roda comandos automáticos assim que o container é criado
+  "postCreateCommand": "uv venv && uv pip install -r requirements.txt",
+
+  // Garante que o terminal padrão já use o ambiente virtual criado pelo uv
+  "remoteEnv": {
+    "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
+    "PATH": "${containerWorkspaceFolder}/.venv/bin:${containerEnv:PATH}"
+  }
+}
