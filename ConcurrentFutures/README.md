@@ -1,8 +1,8 @@
 # Computacao_Paralela
 ## concurrent.futures
-O módulo concurrent.futures, introduzido no Python 3.2, fornece uma abstração seguras e práticas
-de alto nível para execução concorrente de chamadas assíncronas menos sujeito a problemas de race
-conditions ou vazamento de recursos, via executores baseados em threads ou processos.
+O módulo concurrent.futures, introduzido no Python 3.2, fornece uma abstração segura e prática
+de alto nível para execução concorrente de chamadas assíncronas, menos sujeito a problemas de race
+conditions ou vazamento de recursos via executores baseados em threads ou processos.
 
 Criado para simplificar a execução de tarefas de forma concorrente ou paralela
 em Python. Executores ThreadPoolExecutor e ProcessPoolExecutor iniciam tarefas com
