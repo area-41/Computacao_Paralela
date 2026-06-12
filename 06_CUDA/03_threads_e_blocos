@@ -1,0 +1,37 @@
+import numpy as np
+from numba import cuda
+
+def somar(A, B, C):
+    for i in range(0, 4000):
+        C[i] = A[i] + B[i]
+
+@cuda.jit
+def somar_gpu(A, B, C):
+    i = cuda.threadIdx.x + cuda.blockIdx.x * cuda.blockDim.x
+    j = cuda.threadIdx.y + cuda.blockIdx.y * cuda.blockDim.y 
+
+    if i < C.size:
+        C[i] = A[i] + B[i]
+
+
+if __name__ == '__main__':
+    N = 4000
+    
+    A = np.random.rand(N)
+    B = np.random.rand(N)
+    C = np.zeros(N)
+
+    A_GPU = cuda.to_device(A)
+    B_GPU = cuda.to_device(B)
+    C_GPU = cuda.to_device(C)
+
+    threadsPorBloco = 32
+    blocosPorGrade = (N + threadsPorBloco - 1) // threadsPorBloco
+
+    somar_gpu[blocosPorGrade, threadsPorBloco](A_GPU, B_GPU, C_GPU)
+
+    C = C_GPU.copy_to_host()
+
+    # somar(A, B, C)
+
+    print(A[0:3], B[0:3], C[0:3])

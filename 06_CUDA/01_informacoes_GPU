@@ -1,0 +1,16 @@
+from numba import cuda
+
+if __name__ == '__main__':
+    gpu = cuda.get_current_device()
+    print("Nome = %s" % gpu.name)
+    print("Clock Rate = %s" % str(gpu.CLOCK_RATE))
+    print(f"Compute Capability = {gpu.COMPUTE_CAPABILITY_MAJOR}.{gpu.COMPUTE_CAPABILITY_MINOR}")
+    print("maxThreadsPerBlock = %s" % str(gpu.MAX_THREADS_PER_BLOCK))
+    print("maxBlockDimX = %s" % str(gpu.MAX_BLOCK_DIM_X))
+    print("maxBlockDimY = %s" % str(gpu.MAX_BLOCK_DIM_Y))
+    print("maxBlockDimZ = %s" % str(gpu.MAX_BLOCK_DIM_Z))
+    print("maxGridDimX = %s" % str(gpu.MAX_GRID_DIM_X))
+    print("maxGridDimY = %s" % str(gpu.MAX_GRID_DIM_Y))
+    print("maxGridDimZ = %s" % str(gpu.MAX_GRID_DIM_Z))
+    print("multiProcessors = %s" % str(gpu.MULTIPROCESSOR_COUNT))
+    print("WARP_SIZE = %s" % str(gpu.WARP_SIZE))

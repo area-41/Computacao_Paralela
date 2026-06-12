@@ -1,0 +1,68 @@
+from numba import cuda
+import numpy as np
+import math
+import time
+
+@cuda.jit
+def calc_gpu(a, b, out):
+    pos_x, pos_y = cuda.grid(2)
+
+    if pos_x < a.shape[1] and pos_y < a.shape[0]:
+        total = 0.0
+        # Operação pesada: laço + múltiplas funções matemáticas
+        for i in range(50):
+            val_a = math.sin(a[pos_y, pos_x] + i * 0.1)
+            val_b = math.cos(b[pos_y, pos_x] - i * 0.1)
+            total += val_a * val_b + math.exp(-i * 0.05)
+
+        out[pos_y, pos_x] = total
+
+def calc_cpu(a, b, out):
+    rows, cols = a.shape
+    for i in range(rows):
+        for j in range(cols):
+            total = 0.0
+            # Operação pesada: laço + múltiplas funções matemáticas
+            for k in range(50):
+                val_a = math.sin(a[i, j] + k * 0.1)
+                val_b = math.cos(b[i, j] - k * 0.1)
+                total += val_a * val_b + math.exp(-k * 0.05)
+            out[i, j] = total
+    return out
+
+
+if __name__ == '__main__':
+    rows, cols = 1024, 1024  # Aumentando um pouco o tamanho para ver diferença
+    a = np.arange(rows * cols, dtype=np.float32).reshape(rows, cols)
+    b = np.arange(rows * cols, dtype=np.float32).reshape(rows, cols)
+    out = np.zeros_like(a)
+
+    start_time = time.time()
+
+    d_a = cuda.to_device(a)
+    d_b = cuda.to_device(b)
+    d_out = cuda.to_device(out)
+
+    threads_per_block = (4, 4)
+    blocks_per_grid_x = (cols + threads_per_block[0] - 1) // threads_per_block[0]
+    blocks_per_grid_y = (rows + threads_per_block[1] - 1) // threads_per_block[1]
+    blocks_per_grid = (blocks_per_grid_x, blocks_per_grid_y)
+
+    calc_gpu[blocks_per_grid, threads_per_block](d_a, d_b, d_out)
+
+    result = d_out.copy_to_host()
+
+    end_time = time.time()
+
+    decorrido = end_time - start_time
+
+    print(f"GPU time: {decorrido:.5f}")
+
+
+    start_time = time.time()
+    result_cpu = calc_cpu(a, b, out)
+    end_time = time.time()
+
+    decorrido = end_time - start_time
+
+    print(f"CPU time: {decorrido:.5f}")
