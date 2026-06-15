@@ -23,8 +23,6 @@
   // Roda comandos automáticos assim que o container é criado
   "postCreateCommand": "uv venv && uv pip install -r requirements.txt",
 
-  "postCreateCommand": "pip install -r requirements.txt"
-  
   // Garante que o terminal padrão já use o ambiente virtual criado pelo uv
   "remoteEnv": {
     "VIRTUAL_ENV": "${containerWorkspaceFolder}/.venv",
